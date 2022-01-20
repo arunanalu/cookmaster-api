@@ -5,4 +5,5 @@ module.exports = {
   notFound: 404,
   serverError: 500,
   unprocessableEntity: 422,
+  conflict: 409,
 };

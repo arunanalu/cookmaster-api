@@ -2,10 +2,11 @@ const { serverError } = require('../utils/dictionary/statusCode');
 
 const error = (err, _req, res, _next) => {
   if (err.status) {
-    const { status, code, message } = err;
+    const { status, message } = err;
 
-    return res.status(status).json({ err: { code, message } });
+    return res.status(status).json({ message });
   }
+  console.log(err);
   return res.status(serverError).json({ message: 'Internal Error' });
 };
 
