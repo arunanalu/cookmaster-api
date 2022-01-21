@@ -7,7 +7,7 @@ const JWT_CONFIG = {
   algorithm: 'HS256',
 };
 
-const genToken = (data) => jwt.sign({ data }, API_SECRET, JWT_CONFIG);
+const genToken = (data) => jwt.sign(data, API_SECRET, JWT_CONFIG);
 
 const verifyToken = (token) => {
   try {

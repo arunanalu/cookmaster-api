@@ -6,4 +6,11 @@ const recipes = async () => {
   return result;
 };
 
-module.exports = { recipes };
+const create = async (name, ingredients, preparation, userId) => {
+  const db = await connection();
+  const result = await db.collection('recipes')
+    .insertOne({ name, ingredients, preparation, userId });
+  return result.ops[0];
+};
+
+module.exports = { recipes, create };
