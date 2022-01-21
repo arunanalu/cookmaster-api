@@ -1,6 +1,7 @@
 const Router = require('express');
 const { getAllRecipes, createNewRecipe } = require('../controllers/recipesControllers');
 const auth = require('../middlewares/auth');
+// const authWeak = require('../middlewares/authWeak');
 
 const recipesRoutes = new Router();
 

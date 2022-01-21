@@ -16,11 +16,11 @@ const getRecipes = async () => {
 
 const createRecipe = async (req) => {
   // console.log(req.body);
-  // console.log(req.user.data);
+  console.log(req.user);
   const { name, ingredients, preparation } = req.body;
   const { error } = recipeSchema.validate({ name, ingredients, preparation });
-  if (error) throw errorConstructor(badRequest, 'Invalid entries. Try again');
-  const { _id: userId } = req.user.data;
+  if (error) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
+  const { _id: userId } = req.user;
   const result = await create(name, ingredients, preparation, userId);
   return result;
 };
