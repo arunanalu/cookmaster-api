@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { ObjectId } = require('mongodb');
-const { recipes, create, recipe } = require('../models/recipesModels');
+const { recipes, create, recipe, edit } = require('../models/recipesModels');
 const { badRequest, notFound } = require('../utils/dictionary/statusCode');
 const errorConstructor = require('../utils/functions/errorConstructor');
 
@@ -32,4 +32,22 @@ const getRecipe = async (id) => {
   return result;
 };
 
-module.exports = { getRecipes, createRecipe, getRecipe };
+const editRecipe = async (req) => {
+  const { name, ingredients, preparation } = req.body;
+  const { id } = req.params;
+  const { error } = recipeSchema.validate({ name, ingredients, preparation });
+  const { _id: userId } = req.user;
+  if (error || !id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
+  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await edit(name, ingredients, preparation, id);
+  const result = {
+    _id: id,
+    name,
+    ingredients,
+    preparation,
+    userId,
+  };
+  return result;
+};
+
+module.exports = { getRecipes, createRecipe, getRecipe, editRecipe };

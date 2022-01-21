@@ -20,4 +20,10 @@ const recipe = async (id) => {
   return result;
 };
 
-module.exports = { recipes, create, recipe };
+const edit = async (name, ingredients, preparation, id) => {
+  const db = await connection();
+  await db.collection('recipes')
+    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
+};
+
+module.exports = { recipes, create, recipe, edit };
