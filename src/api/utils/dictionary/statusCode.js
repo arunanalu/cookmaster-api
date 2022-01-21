@@ -6,4 +6,5 @@ module.exports = {
   serverError: 500,
   unprocessableEntity: 422,
   conflict: 409,
+  unauthorized: 401,
 };

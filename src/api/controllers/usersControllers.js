@@ -1,4 +1,4 @@
-const { getUsers, createUser } = require('../services/userServices');
+const { getUsers, createUser, loginUser } = require('../services/userServices');
 const { success, created } = require('../utils/dictionary/statusCode');
 
 const getAllUsers = async (_req, res, next) => {
@@ -20,4 +20,14 @@ const createNewUser = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllUsers, createNewUser };
+const loginNewUser = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const token = await loginUser(email, password);
+    res.status(success).json({ token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllUsers, createNewUser, loginNewUser };
