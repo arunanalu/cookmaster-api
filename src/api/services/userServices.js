@@ -34,10 +34,9 @@ const createUser = async (name, email, password) => {
 
 const loginUser = async (email, password) => {
   const { error } = loginSchema.validate({ email, password });
-  if (error) throw errorConstructor(unauthorized, 'All fields must by filled');
+  if (error) throw errorConstructor(unauthorized, 'All fields must be filled');
   const shouldEmailExist = await userByEmail(email);
-  if (!shouldEmailExist) throw errorConstructor(unauthorized, 'Inorrect username or password');
-  // console.log(shouldEmailExist);
+  if (!shouldEmailExist) throw errorConstructor(unauthorized, 'Incorrect username or password');
   if (shouldEmailExist.password !== password) {
     throw errorConstructor(unauthorized, 'Inorrect username or password'); 
   }
