@@ -55,7 +55,7 @@ const editRecipe = async (req) => {
   if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
   if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
 
-  roleValidation(role, id, userId);
+  await roleValidation(role, id, userId);
 
   await edit(name, ingredients, preparation, id);
   const result = {
