@@ -26,4 +26,9 @@ const edit = async (name, ingredients, preparation, id) => {
     .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
 };
 
-module.exports = { recipes, create, recipe, edit };
+const del = async (id) => {
+  const db = await connection();
+  await db.collection('recipes').deleteOne({ _id: ObjectId(id) });
+};
+
+module.exports = { recipes, create, recipe, edit, del };

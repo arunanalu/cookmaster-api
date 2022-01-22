@@ -1,5 +1,11 @@
-const { getRecipes, createRecipe, getRecipe, editRecipe } = require('../services/recipesServices');
-const { success, created } = require('../utils/dictionary/statusCode');
+const { 
+  getRecipes, 
+  createRecipe, 
+  getRecipe, 
+  editRecipe, 
+  deleteRecipe, 
+} = require('../services/recipesServices');
+const { success, created, notContent } = require('../utils/dictionary/statusCode');
 
 const getAllRecipes = async (_req, res, next) => {
   try {
@@ -38,4 +44,13 @@ const editARecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllRecipes, createNewRecipe, getSingleRecipe, editARecipe };
+const deleteARecipe = async (req, res, next) => {
+  try {
+    await deleteRecipe(req);
+    res.status(notContent).json();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAllRecipes, createNewRecipe, getSingleRecipe, editARecipe, deleteARecipe };
