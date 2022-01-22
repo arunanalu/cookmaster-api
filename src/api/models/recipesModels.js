@@ -20,10 +20,10 @@ const recipe = async (id) => {
   return result;
 };
 
-const edit = async (name, ingredients, preparation, id) => {
+const edit = async (id, newRecipe) => {
   const db = await connection();
   await db.collection('recipes')
-    .updateOne({ _id: ObjectId(id) }, { $set: { name, ingredients, preparation } });
+    .updateOne({ _id: ObjectId(id) }, { $set: { ...newRecipe } });
 };
 
 const del = async (id) => {

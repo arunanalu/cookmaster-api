@@ -57,7 +57,7 @@ const editRecipe = async (req) => {
 
   await roleValidation(role, id, userId);
 
-  await edit(name, ingredients, preparation, id);
+  await edit(id, { name, ingredients, preparation });
   const result = {
     _id: id,
     name,
