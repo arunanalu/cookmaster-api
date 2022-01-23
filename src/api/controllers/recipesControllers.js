@@ -3,7 +3,8 @@ const {
   createRecipe, 
   getRecipe, 
   editRecipe, 
-  deleteRecipe, 
+  deleteRecipe,
+  addImage, 
 } = require('../services/recipesServices');
 const { success, created, notContent } = require('../utils/dictionary/statusCode');
 
@@ -53,4 +54,20 @@ const deleteARecipe = async (req, res, next) => {
   }
 };
 
-module.exports = { getAllRecipes, createNewRecipe, getSingleRecipe, editARecipe, deleteARecipe };
+const addAImage = async (req, res, next) => {
+  try {
+    const result = await addImage(req);
+    res.status(success).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { 
+  getAllRecipes, 
+  createNewRecipe, 
+  getSingleRecipe, 
+  editARecipe, 
+  deleteARecipe, 
+  addAImage, 
+};

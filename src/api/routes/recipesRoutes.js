@@ -4,9 +4,10 @@ const {
   createNewRecipe, 
   getSingleRecipe, 
   editARecipe, 
-  deleteARecipe } = require('../controllers/recipesControllers');
+  deleteARecipe, 
+  addAImage } = require('../controllers/recipesControllers');
 const auth = require('../middlewares/auth');
-// const authWeak = require('../middlewares/authWeak');
+const upload = require('../middlewares/multer');
 
 const recipesRoutes = new Router();
 
@@ -15,5 +16,6 @@ recipesRoutes.get('/recipes/:id', getSingleRecipe);
 recipesRoutes.post('/recipes', auth, createNewRecipe);
 recipesRoutes.put('/recipes/:id', auth, editARecipe);
 recipesRoutes.delete('/recipes/:id', auth, deleteARecipe);
+recipesRoutes.put('/recipes/:id/image', auth, upload, addAImage);
 
 module.exports = recipesRoutes;

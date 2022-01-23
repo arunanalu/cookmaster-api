@@ -78,4 +78,22 @@ const deleteRecipe = async (req) => {
   await del(id);
 };
 
-module.exports = { getRecipes, createRecipe, getRecipe, editRecipe, deleteRecipe };
+const addImage = async (req) => {
+  const { id } = req.params;
+  const { _id: userId, role } = req.user;
+  const { filename } = req.file;
+  if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
+  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await roleValidation(role, id, userId);
+
+  const oldRecipe = await recipe(id);
+  console.log(oldRecipe);
+  const newRecipe = {
+    ...oldRecipe,
+    image: `localhost:3000/src/uploads/${filename}`,
+  };
+  await edit(id, newRecipe);
+  return newRecipe;
+};
+
+module.exports = { getRecipes, createRecipe, getRecipe, editRecipe, deleteRecipe, addImage };
