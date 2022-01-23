@@ -26,6 +26,13 @@ const roleValidation = async (role, id, userId) => {
   }
 };
 
+const idValidation = async (id) => {
+  if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
+  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  const recipeExist = await recipe(id);
+  if (!recipeExist) throw errorConstructor(notFound, 'recipe not found');
+};
+
 const getRecipes = async () => {
   const result = await recipes();
   return result;
@@ -42,7 +49,7 @@ const createRecipe = async (req) => {
 };
 
 const getRecipe = async (id) => {
-  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await idValidation(id);
   const result = await recipe(id);
   return result;
 };
@@ -52,8 +59,7 @@ const editRecipe = async (req) => {
   const { name, ingredients, preparation } = req.body;
   const { id } = req.params;
   const { _id: userId, role } = req.user;
-  if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
-  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await idValidation(id);
 
   await roleValidation(role, id, userId);
 
@@ -71,8 +77,7 @@ const editRecipe = async (req) => {
 const deleteRecipe = async (req) => {
   const { id } = req.params;
   const { _id: userId, role } = req.user;
-  if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
-  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await idValidation(id);
   await roleValidation(role, id, userId);
 
   await del(id);
@@ -82,12 +87,10 @@ const addImage = async (req) => {
   const { id } = req.params;
   const { _id: userId, role } = req.user;
   const { filename } = req.file;
-  if (!id) throw errorConstructor(badRequest, 'Invalid entries. Try again.');
-  if (!ObjectId.isValid(id)) throw errorConstructor(notFound, 'recipe not found');
+  await idValidation(id);
   await roleValidation(role, id, userId);
 
   const oldRecipe = await recipe(id);
-  console.log(oldRecipe);
   const newRecipe = {
     ...oldRecipe,
     image: `localhost:3000/src/uploads/${filename}`,
